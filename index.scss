@@ -1,0 +1,66 @@
+.main {
+    width: 375px;
+    height: 660px;
+    box-sizing: border-box;
+    padding: 20px 36px;
+    border: thick double #9da2ae;
+
+    .header {
+        border-bottom: 1px dashed #a4a3a1;
+        height: 120px;
+       
+        .header-left {
+            float: left;
+            width: 50%;
+            p {
+                display: block;
+                // background-color: red;
+                font-size: 12px;
+                font-family: klee;
+            }
+
+            #calendar-name {
+                font-size: 16px;
+                font-family: Weibei SC;
+                color: #293242;
+                margin-top: 10px;
+            }
+        }
+    
+        .header-right {
+            float: left;
+            width: 50%;
+            font-size: 110px;
+            line-height: 100px;
+            font-weight: 'bold';
+            text-align: right;
+        }
+        
+    }
+
+    .content-text {
+        margin-top: 16px;
+        font-size: 16px;
+        font-family: Kai;
+        line-height:1.65em;
+        text-align: justify;
+        span {
+            display: block;
+            margin-top: 5px;
+            color: #333333;
+            font-size: 14px;
+            text-align: right;
+        }
+    }
+
+    .footer-img {
+        margin-top: 15px;
+        width: 100%;
+        height: 120px;
+        background: url("https://images.unsplash.com/photo-1593500504165-5378f38d9981?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+    }
+   
+}
