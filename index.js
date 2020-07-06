@@ -217,6 +217,31 @@ window.onload = function() {
     if (yy<100) yy="19"+yy;
     const chinese_date = document.querySelector('#chinese-date');
     chinese_date.innerHTML = GetLunarDay(yy,mm,dd);
+
+    const input = document.querySelector('#input-content');
+    input.addEventListener('input', updateValue);
+
+    function updateValue(e) {
+        const main_content = document.querySelector('#main-content');
+        main_content.innerHTML = e.target.value;
+    } 
+
+    const input_author = document.querySelector('#input-author');
+    input_author.addEventListener('input', updateAuthor);
+
+    function updateAuthor(e) {
+        const author = document.querySelector('#author');
+        author.innerHTML = e.target.value;
+    } 
+
+    const input_img_url = document.querySelector('#input-img-url');
+    input_img_url.addEventListener('input', updateImage);
+
+    function updateImage(e) {
+        const footer_img = document.querySelector('.footer-img');
+        footer_img.style.background = 'url("'+e.target.value+'")';
+    } 
+
 }
 
 
