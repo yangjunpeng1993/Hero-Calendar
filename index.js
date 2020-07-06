@@ -1,3 +1,4 @@
+document.write("<script type='text/javascript' src='./html2canvas.js'></script>");
 let now=new Date();  
  
 let lunarinfo=new Array(0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
@@ -196,12 +197,15 @@ return "";
 
 window.onload = function() {
     let myDate = new Date();
-    const day = document.querySelector('.header-right');
+    const day_div = document.querySelector('.header-right');
+    let day;
     if(myDate.getDate()<10) {
-        day.innerHTML = '0'+ myDate.getDate();
+        day = '0'+ myDate.getDate();
     } else {
-        day.innerHTML = myDate.getDate();
+        day = myDate.getDate();
     }
+
+    day_div.innerHTML = day;
 
     const monthAndWeek = document.querySelector('#month-week');
     let month = myDate.getMonth() + 1;
@@ -242,7 +246,92 @@ window.onload = function() {
         footer_img.style.background = 'url("'+e.target.value+'")';
     } 
 
+    const downloadBtn = document.querySelector('#download');
+    downloadBtn.addEventListener('click', snapshoot);
+
+   let content = document.querySelector('.main');
+   let width = content.offsetWidth,//canvasContent.offsetWidth || document.body.clientWidth; //获取dom 宽度
+   height = content.offsetHeight;//canvasContent.offsetHeight; //获取dom 高度
+   // canvas = document.createElement("canvas"), //创建一个canvas节点
+   // scale = 4; //定义任意放大倍数 支持小数
+   // canvas.width = width * scale; //定义canvas 宽度 * 缩放
+   // canvas.height = height * scale; //定义canvas高度 *缩放
+   // canvas.style.width = content.offsetWidth * scale + "px";
+   // canvas.style.height = content.offsetHeight * scale + "px";
+   // canvas.getContext("2d").scale(scale, scale); //获取context,设置scale
+   const scale = 2;
+   let opts = {
+      scale: scale, // 添加的scale 参数
+      // canvas: canvas, //自定义 canvas
+      logging: false, //日志开关，便于查看html2canvas的内部执行流程
+      // width: width, //dom 原始宽度
+      // height: height,
+      useCORS: true // 【重要】开启跨域配置
+   };
+
+   function snapshoot(){
+      content.style.border = "none";
+      const header_div = document.querySelector('.header');
+      header_div.style.borderBottom = 'none';
+      // border-bottom: 1px dashed #D4D3C3;
+      html2canvas(content, opts).then(function(canvas){
+         dashed(header_div, canvas);
+         drawBorder(content, canvas, 1);
+         drawBorder(content, canvas, 4);
+         let imgUrl = canvas.toDataURL('image/png');
+         // window.location.href = imgUrl;
+         console.log(imgUrl);
+         var dlLink = document.createElement('a');
+         dlLink.download = month + '-' + myDate.getDate();
+         dlLink.href = imgUrl;
+         dlLink.dataset.downloadurl = ['image/png', dlLink.download, dlLink.href].join(':');
+         document.body.appendChild(dlLink);
+         dlLink.click();
+         document.body.removeChild(dlLink);
+
+         // 复原
+         content.style.border = "thick double #B3B7B9";
+         header_div.style.borderBottom = '1px dashed #D4D3C3';
+      }) 
+   }
+
+   function dashed(domContent, canvas) {
+      let top = 24,
+         right = domContent.offsetRight,
+         left = domContent.offsetLeft,
+         width = domContent.offsetWidth,
+         height = domContent.offsetHeight;
+
+      var ctx = canvas.getContext("2d");
+      ctx.setLineDash([2.5,1]);
+      ctx.strokeStyle = '#D4D3C3';
+      ctx.lineWidth = 1;
+      ctx.globalAlpha = 1;
+      ctx.beginPath();
+      ctx.moveTo(left, top + height);
+      ctx.lineTo(left + width, top + height);
+      ctx.stroke()
+   }
+
+   function drawBorder(domContent, canvas, offset) {
+      let top = domContent.offsetTop + offset,
+         left = domContent.offsetLeft + offset,
+         width = domContent.offsetWidth - offset*2,
+         height = domContent.offsetHeight - offset*2;
+
+      var ctx = canvas.getContext("2d");
+
+      console.log('left: '+ left);
+      console.log('top: '+ top);
+      console.log('width: '+ width);
+      console.log('height: '+ width);
+
+
+      ctx.setLineDash([]);
+      ctx.strokeStyle = '#B3B7B9';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(left, top, width, height);
+   }
+
 }
-
-
 
