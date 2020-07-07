@@ -244,6 +244,8 @@ window.onload = function() {
     function updateImage(e) {
         const footer_img = document.querySelector('.footer-img');
         footer_img.style.background = 'url("'+e.target.value+'")';
+        footer_img.style.backgroundSize = 'cover';
+        footer_img.style.backgroundPosition = 'center center';
     } 
 
     const downloadBtn = document.querySelector('#download');
@@ -277,10 +279,9 @@ window.onload = function() {
       html2canvas(content, opts).then(function(canvas){
          dashed(header_div, canvas);
          drawBorder(content, canvas, 1);
-         drawBorder(content, canvas, 4);
+         drawBorder(content, canvas, 5);
          let imgUrl = canvas.toDataURL('image/png');
          // window.location.href = imgUrl;
-         console.log(imgUrl);
          var dlLink = document.createElement('a');
          dlLink.download = month + '-' + myDate.getDate();
          dlLink.href = imgUrl;
